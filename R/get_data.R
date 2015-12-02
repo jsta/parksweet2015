@@ -30,18 +30,3 @@ get_data <- function(){
 
 dt <- get_data()
 lapply(names(dt), function(x) write.csv(dt[x], paste0("data/", x, ".csv")))
-                                        
-
-
-
-
-
-  #use difftime to convert dt$date to units of years
-  #looking for a trend of:   vaca = 3.8 +- 0.4
-  #                      virginia = 3.9 +- 0.8
-
-lapply(dt, head)
-
-
-
-
