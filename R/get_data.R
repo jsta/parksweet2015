@@ -29,4 +29,4 @@ get_data <- function(){
 }
 
 dt <- get_data()
-lapply(names(dt), function(x) write.csv(dt[x], paste0("data/", x, ".csv")))
+lapply(names(dt), function(x) write.csv(dt[x], paste0("data/", x, ".csv"), row.names = FALSE))
