@@ -8,7 +8,9 @@ Park, J., & Sweet, W. (2015). Accelerated sea level rise and Florida Current tra
 
 #Shell Build Instructions
 `git clone https://github.com/jsta/parksweet2015.git` 
+
 make all 
+
 make clean 
 
 
