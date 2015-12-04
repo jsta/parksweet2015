@@ -1,0 +1,56 @@
+---
+title: "ParkSweet2015"
+author: "Joseph Stachelek"
+date: "December 2, 2015"
+output: html_document
+---
+
+```{r load_data, echo=FALSE}
+dt <-  list(vaca = read.csv("data/vaca.csv", stringsAsFactors = FALSE), virginia = read.csv("data/virginia.csv", stringsAsFactors = FALSE))
+
+format_dt <- function(dt){
+  dt[,1] <- as.POSIXct(dt[,1])
+  names(dt) <- c("date", "MSL")
+  dt
+}
+
+vaca <- format_dt(dt$vaca)
+virginia <- format_dt(dt$virginia)
+```
+
+```{r load_trend_calc, echo=FALSE}
+wlevel_trend <- read.csv("data/wlevel_trend.csv" ,stringsAsFactors = FALSE)
+wlevel_trend[,c(2, 3)] <- round(wlevel_trend[,c(2,3)], 2)
+names(wlevel_trend) <- c("Station", "Trend (mm yr-1)", "Uncertainty (se)")
+knitr::kable(wlevel_trend, format = "markdown")
+```
+
+```{r plot_data, echo=FALSE, cache=TRUE, fig.path="fig/"}
+library(ggplot2)
+
+theme_opts <- list(ggplot2::theme(
+  panel.grid.minor = ggplot2::element_blank(),
+  panel.grid.major = ggplot2::element_blank(),
+  panel.background = ggplot2::element_blank(),
+  plot.background = ggplot2::element_rect(fill="white"),
+  panel.border = ggplot2::element_blank(),
+  axis.line = ggplot2::element_line(color = "black"),
+  axis.title.y = ggplot2::element_text(),
+  axis.title.x = ggplot2::element_blank(),
+  axis.text.x = ggplot2::element_text(color = "black", size = 15, angle = 90),
+  axis.text.y = ggplot2::element_text(color = "black", size = 15),
+  strip.text.x = ggplot2::element_text(size = 22),
+  strip.background = ggplot2::element_rect(fill = 'white')))
+
+plot_data <- function(dt, title){
+  gg <- ggplot(dt, aes(x = date, y = MSL))
+  gg <- gg + geom_line() + ylab("Mean Sea Level (m)") + xlim(c(as.POSIXct(paste0("1983","-01-01")), as.POSIXct(paste0("2015", "-01-01"))))
+  gg <- gg + stat_smooth(method = "lm", se = FALSE)
+  gg <- gg + ggtitle(title) + theme_opts
+  gg
+}
+
+plot_data(vaca, title = "Vaca Key")
+plot_data(virginia, title = "Virginia Key")
+```
+
