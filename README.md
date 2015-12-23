@@ -4,6 +4,7 @@ Park, J., & Sweet, W. (2015). Accelerated sea level rise and Florida Current tra
 
 #Dependencies
 * ggplot2
+* rnoaa
 * GNU make
 
 #Shell Build Instructions
